@@ -1,0 +1,7 @@
+chatbot-env/
+__pycache__/
+.env
+faiss_index/
+PROJECT_WRITEUP.md
+README.md
+*.exe
