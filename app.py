@@ -23,9 +23,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmb
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain_classic.chains import ConversationalRetrievalChain
 from langchain_classic.memory import ConversationBufferMemory
 from langchain_core.prompts import PromptTemplate
+from langchain_classic.chains import RetrievalQA
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
@@ -271,7 +271,7 @@ def build_chain(api_key: str, retriever):
       Without condensing, "Tell me more about the C" retrieves garbage.
     """
     llm = ChatGoogleGenerativeAI(
-    model="models/gemini-3.5-flash", # Remove -latest if it failed
+    model="models/gemini-2.5-flash", # Remove -latest if it failed
     google_api_key=api_key,
     version="v1",             # Force the stable API version
     temperature=0.3,
@@ -300,22 +300,30 @@ Answer:""",
     # memory_key must match the chain's expected input key.
     # return_messages=True returns LangChain Message objects (not strings),
     # which the chain knows how to serialize into the condenser prompt.
-    memory = ConversationBufferMemory(
-        memory_key="chat_history",
-        return_messages=True,
-        output_key="answer",
+    # memory = ConversationBufferMemory(
+    #     memory_key="chat_history",
+    #     return_messages=True,
+    #     output_key="answer",
+    # )
+
+    # chain = ConversationalRetrievalChain.from_llm(
+    #     llm=llm,
+    #     retriever=retriever,
+    #     memory=memory,
+    #     combine_docs_chain_kwargs={"prompt": qa_prompt},
+    #     return_source_documents=True,   # We show sources in the UI for transparency
+    #     verbose=False,
+    # )
+    # return chain
+
+    chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=retriever,
+    return_source_documents=True,
+    chain_type_kwargs={"prompt": qa_prompt},
     )
 
-    chain = ConversationalRetrievalChain.from_llm(
-        llm=llm,
-        retriever=retriever,
-        memory=memory,
-        combine_docs_chain_kwargs={"prompt": qa_prompt},
-        return_source_documents=True,   # We show sources in the UI for transparency
-        verbose=False,
-    )
     return chain
-
 
 # ── Session state initialisation ──────────────────────────────────────────────
 # Streamlit reruns the entire script on every interaction.
@@ -468,8 +476,8 @@ if user_input:
         # Stream-style response with a spinner
         with st.spinner("Searching handbook…"):
             try:
-                result = st.session_state.chain({"question": user_input})
-                answer = result["answer"]
+                result = st.session_state.chain.invoke({"query": user_input})
+                answer = result["result"]
                 source_docs = result.get("source_documents", [])
                 sources = [doc.metadata.get("source", "") for doc in source_docs if doc.metadata.get("source")]
             except Exception as e:
