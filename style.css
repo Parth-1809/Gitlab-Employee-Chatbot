@@ -1,0 +1,245 @@
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --bg: #0f1117;
+        --panel: #171a21;
+        --panel-2: #1d212a;
+        --border: rgba(255,255,255,0.08);
+        --text: #e8ebf2;
+        --muted: #a7afbf;
+        --accent: #FC6D26;
+        --accent-2: #E24329;
+        --accent-soft: rgba(252,109,38,0.14);
+        --success-bg: rgba(40, 167, 69, 0.14);
+        --success-text: #b9f6c8;
+        --warning-bg: rgba(255, 193, 7, 0.14);
+        --warning-text: #ffe08a;
+        --shadow: 0 12px 30px rgba(0,0,0,0.28);
+    }
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+    }
+
+    .stApp {
+        background: linear-gradient(180deg, #0d0f14 0%, #11141b 100%);
+    }
+
+    .main .block-container {
+        padding-top: 1.75rem;
+        max-width: 980px;
+    }
+
+    .header-banner {
+        background: linear-gradient(135deg, rgba(252,109,38,0.18), rgba(226,67,41,0.18));
+        border: 1px solid rgba(252,109,38,0.22);
+        padding: 1.4rem 1.6rem;
+        border-radius: 18px;
+        margin-bottom: 1.4rem;
+        color: var(--text);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(8px);
+    }
+
+    .header-banner h1 {
+        margin: 0;
+        font-size: 1.55rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+    .header-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+    }
+
+    .header-logo {
+    width: 42px;
+    height: 42px;
+    object-fit: contain; 
+    }
+
+    .header-banner p {
+        margin: 0.45rem 0 0 0;
+        color: var(--muted);
+        font-size: 0.96rem;
+        line-height: 1.5;
+    }
+
+    .chat-message {
+        display: flex;
+        gap: 0.85rem;
+        margin-bottom: 1rem;
+        align-items: flex-start;
+        animation: fadeSlideIn 0.22s ease-out;
+    }
+
+    @keyframes fadeSlideIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-message .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+
+    .chat-message.user .avatar {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: white;
+    }
+
+    .chat-message.bot .avatar {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+    }
+
+    .chat-message .bubble {
+        padding: 0.95rem 1rem;
+        border-radius: 16px;
+        line-height: 1.65;
+        max-width: 84%;
+        font-size: 0.95rem;
+        border: 1px solid var(--border);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+
+    .chat-message.user .bubble {
+        margin-left: auto;
+        background: rgba(252,109,38,0.08);
+        color: var(--text);
+        border-color: rgba(252,109,38,0.18);
+    }
+
+    .chat-message.bot .bubble {
+        background: var(--panel);
+        color: var(--text);
+    }
+
+    .source-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        margin: 3px 4px 0 0;
+        text-decoration: none;
+        transition: all 0.18s ease;
+    }
+
+    .source-chip:hover {
+        background: rgba(252,109,38,0.10);
+        border-color: rgba(252,109,38,0.20);
+        color: var(--text);
+        transform: translateY(-1px);
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: 1px solid transparent;
+        letter-spacing: 0.01em;
+    }
+
+    .status-ready {
+        background: var(--success-bg);
+        color: var(--success-text);
+        border-color: rgba(185,246,200,0.18);
+    }
+
+    .status-loading {
+        background: var(--warning-bg);
+        color: var(--warning-text);
+        border-color: rgba(255,224,138,0.18);
+    }
+
+    .stChatInput input,
+    .stTextInput input {
+        border-radius: 14px !important;
+        border: 1px solid var(--border) !important;
+        background: var(--panel) !important;
+        color: var(--text) !important;
+        padding: 0.9rem 1rem !important;
+        font-size: 0.95rem !important;
+        transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+    }
+
+    .stChatInput input:focus,
+    .stTextInput input:focus {
+        border-color: rgba(252,109,38,0.45) !important;
+        box-shadow: 0 0 0 3px rgba(252,109,38,0.12) !important;
+        background: #1a1f28 !important;
+    }
+
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #161922 0%, #12151d 100%);
+        border-right: 1px solid var(--border);
+    }
+
+    [data-testid="stSidebar"] * {
+        color: var(--text) !important;
+    }
+
+    [data-testid="stSidebar"] hr {
+        border-color: var(--border);
+    }
+
+    [data-testid="stSidebar"] .stButton button {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid rgba(252,109,38,0.25);
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: white !important;
+        font-weight: 600;
+        padding: 0.7rem 1rem;
+        box-shadow: 0 10px 20px rgba(226,67,41,0.22);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    }
+
+    [data-testid="stSidebar"] .stButton button:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.03);
+        box-shadow: 0 12px 24px rgba(226,67,41,0.28);
+    }
+
+    .stButton button {
+        border-radius: 12px;
+    }
+
+    #MainMenu { visibility: hidden; }
+    footer { visibility: hidden; }
+
+    p, li {
+        line-height: 1.65;
+    }
+
+    a {
+        color: #ff9c66;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
